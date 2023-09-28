@@ -20,9 +20,9 @@ func main() {
 	replicaCount := flag.Int("replica", 2, "Number of repplica you want to create")
 	imageName := flag.String("image", "sagar27/petclinic-demo", "The name of the container Image")
 	namespaceName := flag.String("namespace", "default", "Name of the namespace where you want to deploy the app")
-	podPort := flag.Int("targetPort", 0, "The target port on the pods that this Service will forward traffic to")
+	podPort := flag.Int("targetPort", 0, "The target port on the pods that this Service will forward traffic to (Must Require to create service and deployment)")
 	serviceType := flag.String("servicetype", "ClusterIP", "Service Type that you want to deploy")
-	servicePort := flag.Int("servicePort", 0, "The port on the service itself (inside the cluster)")
+	servicePort := flag.Int("servicePort", 0, "The port on the service itself (Must Required to create service)")
 	nodePort := flag.Int("nodePort", 0, "The static port on each node (can be omitted to let Kubernetes choose)")
 	protocol := flag.String("protocol", "TCP", "The IP protocol for this port. Supports 'TCP', 'UDP' and 'SCTP'")
 
