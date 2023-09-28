@@ -1,6 +1,10 @@
 # k8sUsingJson
 Creating resources in kubernetes without using Yaml file
 
+### Prerequisite:- 
+This script will use the kubeconfig file stored in home directory `~/.kube/config` path. So, before excuting this script make sure you have kubeconfig file in the right directory and right context has been set.
+
+### Info To run the code
 To run this code clone the repo on to your local machine and go inside the `k8sUsingJson` directory and execute this command.
 `go run main.go`
 It will show you all the flags which you can pass to run the code. Flags are also listed below.
