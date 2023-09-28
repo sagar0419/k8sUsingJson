@@ -13,6 +13,7 @@ import (
 )
 
 func main() {
+
 	// Setting Default Values for Deployment, as we are using flag package values can we override from the CLI while executing the main.go
 	//  for eg:- go run main.go -deploymentName sagar -image test
 	deployName := flag.String("deploymentName", "sagar", "Name of the deployment / Service")
@@ -76,6 +77,9 @@ func main() {
 		os.Exit(1)
 	}
 
+	// Calling DeployAPP function to deploy the app with the passed variables.
 	deploy.DeployApp(client, *deployName, *imageName, *namespaceName, *replicaCount, *podPort)
+
+	// Calling SvcApply function to create the Service with the passed variables.
 	svc.SvcApply(client, *deployName, *serviceType, *namespaceName, *nodePort, *podPort, *servicePort, *protocol)
 }

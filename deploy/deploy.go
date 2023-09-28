@@ -60,6 +60,7 @@ func DeployApp(client *kubernetes.Clientset, deployName string, imageName string
 			},
 		},
 	}
+	// Message to let user know that Deployment is getting created
 	fmt.Println("Deploying your deployment", deployName)
 
 	// Deploying the above deployment manifest using deploy reference and it's associated methods we have created in the first step in this file.
@@ -67,5 +68,6 @@ func DeployApp(client *kubernetes.Clientset, deployName string, imageName string
 		log.Fatalf("Failed to deploy the deployment manifest %v \n", err)
 		os.Exit(1)
 	}
+	// Message to let user know that Deployment is deployed
 	fmt.Printf("Deployment is deployed successfully %v in the %v Namespace. \n \t", deployName, namespaceName)
 }

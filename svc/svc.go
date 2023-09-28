@@ -14,10 +14,13 @@ import (
 
 func SvcApply(client *kubernetes.Clientset, deployName string, serviceType string, namespaceName string, nodePort int, podPort int, servicePort int, protocol string) {
 
+	// Changing the datatype of variable to the required datatype
 	nodeport := int32(nodePort)
 	podport := intstr.FromInt(podPort)
 	serviceport := int32(servicePort)
 
+	// Setting Reference to the Kubernetes Deployment resource within a given namespace.
+	// Now can create, update, delete, or list Deployments in that namespace using the deploy variable and its associated methods from the Kubernetes client library.
 	serviceDeploy := client.CoreV1().Services(namespaceName)
 
 	serviceSpec := &v1.Service{
@@ -42,14 +45,16 @@ func SvcApply(client *kubernetes.Clientset, deployName string, serviceType strin
 			},
 		},
 	}
+
+	// Message to let user know the service is getting created
 	fmt.Printf("Creating service of name %v of type %v \n \t", deployName, serviceType)
 
 	// Deploying the above service Manifest
 	// Using serviceDeploy reference and it's associated methods we have created in the first step in this file.
-
 	if _, err := serviceDeploy.Create(context.Background(), serviceSpec, metav1.CreateOptions{}); err != nil {
 		log.Fatalf("Failed to create the service %v \n", err)
 		os.Exit(1)
 	}
+	// Message to let user know that service is deployed
 	fmt.Printf("Service is deployed successfully %v in the %v Namespace.\n ", deployName, namespaceName)
 }
