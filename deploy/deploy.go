@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"os"
 
 	appsv1 "k8s.io/api/apps/v1"
 	apiv1 "k8s.io/api/core/v1"
@@ -12,10 +13,12 @@ import (
 )
 
 // DeployApp(client, deployName, imageName, namespaceName)
-func DeployApp(client *kubernetes.Clientset, deployName string, imageName string, namespaceName string) {
+func DeployApp(client *kubernetes.Clientset, deployName string, imageName string, namespaceName string, replica int, podPort int) {
 
 	// Setting Replica count variable
-	replicaCount := int32(3)
+	replicaCount := int32(replica)
+
+	port := int32(podPort)
 
 	// Setting Reference to the Kubernetes Deployment resource within a given namespace.
 	// Now can create, update, delete, or list Deployments in that namespace using the deploy variable and its associated methods from the Kubernetes client library.
@@ -47,7 +50,7 @@ func DeployApp(client *kubernetes.Clientset, deployName string, imageName string
 							Ports: []apiv1.ContainerPort{
 								{
 									Name:          "http",
-									ContainerPort: 8080,
+									ContainerPort: port,
 									Protocol:      apiv1.ProtocolTCP,
 								},
 							},
@@ -62,6 +65,7 @@ func DeployApp(client *kubernetes.Clientset, deployName string, imageName string
 	// Deploying the above deployment manifest using deploy reference and it's associated methods we have created in the first step in this file.
 	if _, err := deploy.Create(context.Background(), deploymentSpec, metav1.CreateOptions{}); err != nil {
 		log.Fatalf("Failed to deploy the deployment manifest %v \n", err)
+		os.Exit(1)
 	}
-	fmt.Printf("Deployment is deployed successfully %v \n", deployName)
+	fmt.Printf("Deployment is deployed successfully %v in the %v Namespace. \n", deployName, namespaceName)
 }
