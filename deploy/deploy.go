@@ -67,5 +67,5 @@ func DeployApp(client *kubernetes.Clientset, deployName string, imageName string
 		log.Fatalf("Failed to deploy the deployment manifest %v \n", err)
 		os.Exit(1)
 	}
-	fmt.Printf("Deployment is deployed successfully %v in the %v Namespace. \n", deployName, namespaceName)
+	fmt.Printf("Deployment is deployed successfully %v in the %v Namespace. \n \t", deployName, namespaceName)
 }

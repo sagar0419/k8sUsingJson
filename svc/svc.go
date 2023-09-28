@@ -42,7 +42,7 @@ func SvcApply(client *kubernetes.Clientset, deployName string, serviceType strin
 			},
 		},
 	}
-	fmt.Printf("Creating service of name %v of type %v", deployName, serviceType)
+	fmt.Printf("Creating service of name %v of type %v \n \t", deployName, serviceType)
 
 	// Deploying the above service Manifest
 	// Using serviceDeploy reference and it's associated methods we have created in the first step in this file.
@@ -51,5 +51,5 @@ func SvcApply(client *kubernetes.Clientset, deployName string, serviceType strin
 		log.Fatalf("Failed to create the service %v \n", err)
 		os.Exit(1)
 	}
-	fmt.Printf("Service is deployed successfully %v in the %v Namespace.\n", deployName, namespaceName)
+	fmt.Printf("Service is deployed successfully %v in the %v Namespace.\n ", deployName, namespaceName)
 }

@@ -43,38 +43,36 @@ func main() {
 	}
 
 	// Checking if service type nordport selected and port of the service has been passed or not.
-	// if *serviceType == "NodePort" && *nodePort == 0 {
-	// 	fmt.Println("Error: While passing the Service Type NodePort you have to pass the value of nodeport also. \n \t")
-	// 	flag.PrintDefaults()
-	// 	os.Exit(1)
-	// }
+	if *serviceType == "NodePort" && *nodePort == 0 {
+		fmt.Println("Since you have selected the service type NodePort and you haven't provided any port, Now a random nodeport will get assigned to the service \n \t")
+	}
 
 	// Printing the passed argument
-	fmt.Printf("Your app %s will use Image %s and will get deployed in the %s namespace \n", *deployName, *imageName, *namespaceName)
+	fmt.Printf("Your app %s will use Image %s and will get deployed in the %s namespace \n \t", *deployName, *imageName, *namespaceName)
 
 	// Getting Home Directory
 	configPath, err := os.UserHomeDir()
 	if err != nil {
-		fmt.Printf("error in configPath %v \n", err)
+		fmt.Printf("error in configPath %v \n \t", err)
 		os.Exit(1)
 	}
 
 	// Setting complete path of homeDIr
 	kubeconfigPath := filepath.Join(configPath, ".kube", "config")
 
-	fmt.Printf("Hey!! we are using kubeconfig present on this path to deploy the application %v", kubeconfigPath)
+	fmt.Printf("Hey!! we are using kubeconfig present on this path to deploy the application %v \n \t", kubeconfigPath)
 
 	// Storing content of ~/.kube/config file in a variable
 	kubeconfig, err := clientcmd.BuildConfigFromFlags("", kubeconfigPath)
 	if err != nil {
-		fmt.Printf("error in kubeconfig %v", err)
+		fmt.Printf("error in kubeconfig %v\n \t", err)
 		os.Exit(1)
 	}
 
 	//  Client is kubernetes which will use the configuration provided in the kubeconfig and help us to interact with the Kubernetes API.
 	client, err := kubernetes.NewForConfig(kubeconfig)
 	if err != nil {
-		fmt.Printf("error in setting client value %v", err)
+		fmt.Printf("error in setting client value %v\n \t", err)
 		os.Exit(1)
 	}
 
