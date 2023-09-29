@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"k8sUsingJson/daemonset"
 	"k8sUsingJson/deploy"
+	headlessvc "k8sUsingJson/headlesSvc"
 	"k8sUsingJson/state"
 	"k8sUsingJson/svc"
 	"os"
@@ -90,4 +91,7 @@ func main() {
 
 	// Calling SvcApply function to create the Service with the passed variables.
 	svc.SvcApply(client, *deployName, *serviceType, *namespaceName, *nodePort, *podPort, *servicePort, *protocol)
+
+	// Calling Headless Service function to create the Service with the passed variables.
+	headlessvc.HdlsSvc(client, *deployName, *namespaceName, *podPort, *servicePort)
 }

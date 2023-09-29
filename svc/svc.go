@@ -1,3 +1,4 @@
+// Function to create service.
 package svc
 
 import (
@@ -23,6 +24,7 @@ func SvcApply(client *kubernetes.Clientset, deployName string, serviceType strin
 	// Now can create, update, delete, or list Deployments in that namespace using the deploy variable and its associated methods from the Kubernetes client library.
 	serviceDeploy := client.CoreV1().Services(namespaceName)
 
+	// Headless Manifest
 	serviceSpec := &v1.Service{
 		ObjectMeta: metav1.ObjectMeta{
 			Name: string(deployName),

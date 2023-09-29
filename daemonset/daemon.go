@@ -1,3 +1,4 @@
+// Function to create Daemonset.
 package daemonset
 
 import (
@@ -22,6 +23,7 @@ func DaemonApply(client *kubernetes.Clientset, deployName string, imageName stri
 
 	daemon := client.AppsV1().DaemonSets(namespaceName)
 
+	// Daemonset Manifest
 	daemonsetSpec := &appsv1.DaemonSet{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      deployName,

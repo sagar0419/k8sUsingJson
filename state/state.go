@@ -1,3 +1,4 @@
+// Function to create Statefulset.
 package state
 
 import (
@@ -16,13 +17,16 @@ func State(client *kubernetes.Clientset, deployName string, imageName string, na
 
 	// Changing the DataType of the podPort
 	podport := int32(podPort)
+
 	// Changing the DataType of the replicaCount
 	replicacount := int32(replicaCount)
 
+	// Changing the storage class Data Type
 	storageClassName := string("standard")
 
 	deployState := client.AppsV1().StatefulSets(namespaceName)
 
+	// Statefull Manifest
 	stateSpec := &appsv1.StatefulSet{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      deployName,

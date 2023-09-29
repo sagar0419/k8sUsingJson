@@ -1,3 +1,4 @@
+// Function to create Deployment .
 package deploy
 
 import (
@@ -25,6 +26,7 @@ func DeployApp(client *kubernetes.Clientset, deployName string, imageName string
 	// Now can create, update, delete, or list Deployments in that namespace using the deploy variable and its associated methods from the Kubernetes client library.
 	deploy := client.AppsV1().Deployments(namespaceName)
 
+	// Deployment Manifest
 	deploymentSpec := &appsv1.Deployment{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      string(deployName),
