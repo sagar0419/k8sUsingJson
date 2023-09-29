@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"k8sUsingJson/daemonset"
 	"k8sUsingJson/deploy"
+	"k8sUsingJson/state"
 	"k8sUsingJson/svc"
 	"os"
 	"path/filepath"
@@ -83,6 +84,9 @@ func main() {
 
 	// Calling DaemonApply function to create the DaemonSet with the passed variables.
 	daemonset.DaemonApply(client, *deployName, *imageName, *namespaceName, *podPort)
+
+	// Calling State function to create the StateFulset with the passed variables.
+	state.State(client, *deployName, *imageName, *namespaceName, *replicaCount, *podPort)
 
 	// Calling SvcApply function to create the Service with the passed variables.
 	svc.SvcApply(client, *deployName, *serviceType, *namespaceName, *nodePort, *podPort, *servicePort, *protocol)
