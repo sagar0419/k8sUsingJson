@@ -15,9 +15,10 @@ import (
 // DeployApp(client, deployName, imageName, namespaceName)
 func DeployApp(client *kubernetes.Clientset, deployName string, imageName string, namespaceName string, replica int, podPort int) {
 
-	// Setting Replica count variable
+	// Changing Replica count variable Data Type
 	replicaCount := int32(replica)
 
+	// Changing podPort variable Data Type
 	port := int32(podPort)
 
 	// Setting Reference to the Kubernetes Deployment resource within a given namespace.
