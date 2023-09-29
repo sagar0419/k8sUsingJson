@@ -72,14 +72,14 @@ func State(client *kubernetes.Clientset, deployName string, imageName string, na
 			},
 		},
 	}
-	// Message to let user know that Deployment is getting created
+	// Message to let user know that Statefulset is getting created
 	fmt.Println("Deploying your Statefulset", deployName)
 
-	// Deploying the above deployment manifest using deploy reference and it's associated methods we have created in the first step in this file.
+	// Deploying the above Statefulset manifest using deployState reference and it's associated methods we have created in the first step in this file.
 	if _, err := deployState.Create(context.Background(), stateSpec, metav1.CreateOptions{}); err != nil {
 		log.Fatalf("Failed to deploy the Statefulset manifest %v \n", err)
 		os.Exit(1)
 	}
-	// Message to let user know that Deployment is deployed
+	// Message to let user know that Statefulset is deployed
 	fmt.Printf("Statefulset is deployed successfully %v in the %v Namespace. \n \t", deployName, namespaceName)
 }
