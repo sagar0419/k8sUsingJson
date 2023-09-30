@@ -20,8 +20,8 @@ func main() {
 
 	// Setting Default Values for Deployment, as we are using flag package values can we override from the CLI while executing the main.go
 	// for eg:- go run main.go -deploymentName sagar -image test
-	deployName := flag.String("deploymentName", "sagar", "Name of the deployment / Service")
-	replicaCount := flag.Int("replica", 2, "Number of repplica you want to create")
+	deployName := flag.String("deploymentName", "sagar", "Name of the deployment/Service")
+	replicaCount := flag.Int("replica", 2, "Number of repplicas you want to create")
 	imageName := flag.String("image", "sagar27/petclinic-demo", "The name of the container Image")
 	namespaceName := flag.String("namespace", "default", "Name of the namespace where you want to deploy the app")
 	podPort := flag.Int("targetPort", 0, "The target port on the pods that this Service will forward traffic to (Must Require to create service and deployment)")
@@ -33,9 +33,7 @@ func main() {
 	ds := flag.String("ds", "", "Pass the Value as 'Yes' to deploy the Daemonset")
 
 	flag.Parse()
-
 	// Verifying the required values are passed or not
-
 	// Checking the value of Target Port and Service Port
 	if *podPort == 0 {
 		fmt.Println("Error: The 'targetPort' flag is required.\n \t")
