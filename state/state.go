@@ -57,6 +57,13 @@ func State(client *kubernetes.Clientset, deployName string, imageName string, na
 									ContainerPort: podport,
 								},
 							},
+							VolumeMounts: []apiv1.VolumeMount{
+								{
+									Name:      "www",
+									MountPath: "/var/www/html",
+									SubPath:   "",
+								},
+							},
 						},
 					},
 				},
@@ -64,7 +71,7 @@ func State(client *kubernetes.Clientset, deployName string, imageName string, na
 			VolumeClaimTemplates: []apiv1.PersistentVolumeClaim{
 				{
 					ObjectMeta: metav1.ObjectMeta{
-						Name: "data",
+						Name: "www",
 					},
 					Spec: apiv1.PersistentVolumeClaimSpec{
 						AccessModes: []apiv1.PersistentVolumeAccessMode{

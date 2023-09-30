@@ -8,6 +8,7 @@ import (
 	headlessvc "k8sUsingJson/headlesSvc"
 	"k8sUsingJson/state"
 	"k8sUsingJson/svc"
+	"log"
 	"os"
 	"path/filepath"
 
@@ -28,12 +29,14 @@ func main() {
 	servicePort := flag.Int("servicePort", 0, "The port on the service itself (Must Required to create service)")
 	nodePort := flag.Int("nodePort", 0, "The static port on each node (can be omitted to let Kubernetes choose)")
 	protocol := flag.String("protocol", "TCP", "The IP protocol for this port. Supports 'TCP', 'UDP' and 'SCTP'")
+	ss := flag.String("ss", "", "Pass the Value as 'Yes' to deploy the Statefulset")
+	ds := flag.String("ds", "", "Pass the Value as 'Yes' to deploy the Daemonset")
 
 	flag.Parse()
 
 	// Verifying the required values are passed or not
 
-	// Checking the value of Target Port
+	// Checking the value of Target Port and Service Port
 	if *podPort == 0 {
 		fmt.Println("Error: The 'targetPort' flag is required.\n \t")
 		flag.PrintDefaults()
@@ -51,9 +54,6 @@ func main() {
 		fmt.Println("Since you have selected the service type NodePort and you haven't provided any port, Now a random nodeport will get assigned to the service \n \t")
 	}
 
-	// Printing the passed argument
-	fmt.Printf("Your app %s will use Image %s and will get deployed in the %s namespace \n \t", *deployName, *imageName, *namespaceName)
-
 	// Getting Home Directory
 	configPath, err := os.UserHomeDir()
 	if err != nil {
@@ -63,8 +63,6 @@ func main() {
 
 	// Setting complete path of homeDIr
 	kubeconfigPath := filepath.Join(configPath, ".kube", "config")
-
-	fmt.Printf("Hey!! we are using kubeconfig present on this path to deploy the application %v \n \t", kubeconfigPath)
 
 	// Storing content of ~/.kube/config file in a variable
 	kubeconfig, err := clientcmd.BuildConfigFromFlags("", kubeconfigPath)
@@ -80,18 +78,55 @@ func main() {
 		os.Exit(1)
 	}
 
-	// Calling DeployAPP function to deploy the app with the passed variables.
-	deploy.DeployApp(client, *deployName, *imageName, *namespaceName, *replicaCount, *podPort)
+	if *ss == "Yes" && *ds == "Yes" || *ss == "yes" && *ds == "yes" {
+		log.Fatal("You cannot deploy both Statefulset and Daemonset in one Go")
+		os.Exit(1)
 
-	// Calling DaemonApply function to create the DaemonSet with the passed variables.
-	daemonset.DaemonApply(client, *deployName, *imageName, *namespaceName, *podPort)
+	} else if *ss == "Yes" || *ss == "yes" {
+		// Printing Kubeconfig file details
+		fmt.Printf("Hey!! we are using kubeconfig present on this path to deploy the application %v \n \t", kubeconfigPath)
 
-	// Calling State function to create the StateFulset with the passed variables.
-	state.State(client, *deployName, *imageName, *namespaceName, *replicaCount, *podPort)
+		// Printing the passed argument
+		fmt.Printf("Your app %s will use Image %s and will get deployed in the %s namespace \n \t", *deployName, *imageName, *namespaceName)
 
-	// Calling SvcApply function to create the Service with the passed variables.
-	svc.SvcApply(client, *deployName, *serviceType, *namespaceName, *nodePort, *podPort, *servicePort, *protocol)
+		// Calling State function to create the StateFulset with the passed variables.
+		state.State(client, *deployName, *imageName, *namespaceName, *replicaCount, *podPort)
 
-	// Calling Headless Service function to create the Service with the passed variables.
-	headlessvc.HdlsSvc(client, *deployName, *namespaceName, *podPort, *servicePort)
+		// Calling Headless Service function to create the Service with the passed variables.
+		headlessvc.HdlsSvc(client, *deployName, *namespaceName, *podPort, *servicePort)
+
+		// Terminating loop
+		return
+
+	} else if *ds == "Yes" || *ds == "yes" {
+		// Printing Kubeconfig file details
+		fmt.Printf("Hey!! we are using kubeconfig present on this path to deploy the application %v \n \t", kubeconfigPath)
+
+		// Printing the passed argument
+		fmt.Printf("Your app %s will use Image %s and will get deployed in the %s namespace \n \t", *deployName, *imageName, *namespaceName)
+
+		// Calling DaemonApply function to create the DaemonSet with the passed variables.
+		daemonset.DaemonApply(client, *deployName, *imageName, *namespaceName, *podPort)
+
+		// Calling SvcApply function to create the Service with the passed variables.
+		svc.SvcApply(client, *deployName, *serviceType, *namespaceName, *nodePort, *podPort, *servicePort, *protocol)
+
+		// Terminating loop
+		return
+	} else {
+		// Printing Kubeconfig file details
+		fmt.Printf("Hey!! we are using kubeconfig present on this path to deploy the application %v \n \t", kubeconfigPath)
+
+		// Printing the passed argument
+		fmt.Printf("Your app %s will use Image %s and will get deployed in the %s namespace \n \t", *deployName, *imageName, *namespaceName)
+
+		// Calling DeployAPP function to deploy the app with the passed variables.
+		deploy.DeployApp(client, *deployName, *imageName, *namespaceName, *replicaCount, *podPort)
+
+		// Calling SvcApply function to create the Service with the passed variables.
+		svc.SvcApply(client, *deployName, *serviceType, *namespaceName, *nodePort, *podPort, *servicePort, *protocol)
+
+		// Terminating loop
+		return
+	}
 }

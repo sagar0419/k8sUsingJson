@@ -40,7 +40,7 @@ func HdlsSvc(client *kubernetes.Clientset, deployName string, namespaceName stri
 					TargetPort: serviceport,
 				},
 			},
-			ClusterIP: "",
+			ClusterIP: "None",
 			Selector: map[string]string{
 				"app": deployName,
 			},
