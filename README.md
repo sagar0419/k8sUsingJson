@@ -32,6 +32,6 @@ To run this code clone the repo on to your local machine and go inside the `k8sU
         The target port on the pods that this Service will forward traffic to (Must Require to create service and deployment)
 ```
 
-If you want to deploy the daemonset pass the flag -ds with argument yes and If you want to deploy the Statefulset pass the flag -ss with argument yes. The script will not deploy the Daemonset and Statefulset together if you pass the value of both the flag -ds and -ss as yes. 
+If you want to deploy the daemonset pass the flag -ds with argument yes and If you want to deploy the Statefulset pass the flag -ss with argument yes. The script will not deploy the Daemonset and Statefulset together if you pass the value of both the flag -ds and -ss as yes. For deployment no Flag is required.
 
 You can only deploy Satetfulset, Daemonset or Deployment in one go.
