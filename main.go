@@ -4,7 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"k8sUsingJson/daemonset"
-	"k8sUsingJson/deploy"
+	deploy "k8sUsingJson/deploymnt"
 	headlessvc "k8sUsingJson/headlesSvc"
 	"k8sUsingJson/state"
 	"k8sUsingJson/svc"
